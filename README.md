@@ -1,9 +1,9 @@
 # Try standalone atom editor
 
-CAUTION: It doesn't work yet.
+CAUTION: I can build but it doesn't work yet.
 
 ```
-browserify -t coffeeify --extension=".coffee" editor/text-editor-view.coffee -s Editor > dist/all.js
+browserify -t coffeeify --extension=".coffee" editor/index.coffee  > dist/all.js
 open dist/index.html
 ```
 

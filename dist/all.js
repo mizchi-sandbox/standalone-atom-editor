@@ -1,4 +1,4 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Editor=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
 },{}],2:[function(require,module,exports){
 (function (process){
@@ -592,7 +592,7 @@ module.exports = CursorsComponent = React.createClass({
 
 
 
-},{"../subscriber-mixin":18,"./cursor-component":6,"react-atom-fork":218,"reactionary-atom-fork":220,"underscore-plus":228}],8:[function(require,module,exports){
+},{"../subscriber-mixin":19,"./cursor-component":6,"react-atom-fork":218,"reactionary-atom-fork":220,"underscore-plus":228}],8:[function(require,module,exports){
 var Decoration, GutterComponent, React, SubscriberMixin, WrapperDiv, div, isEqual, isEqualForProperties, multiplyString, toArray, _, _ref;
 
 _ = require('underscore-plus');
@@ -889,7 +889,7 @@ module.exports = GutterComponent = React.createClass({
 
 
 
-},{"../decoration":16,"../subscriber-mixin":18,"react-atom-fork":218,"reactionary-atom-fork":220,"underscore-plus":228}],9:[function(require,module,exports){
+},{"../decoration":16,"../subscriber-mixin":19,"react-atom-fork":218,"reactionary-atom-fork":220,"underscore-plus":228}],9:[function(require,module,exports){
 var HighlightComponent, React, div, isEqualForProperties;
 
 React = require('react-atom-fork');
@@ -1603,7 +1603,7 @@ module.exports = LinesComponent = React.createClass({
 
 
 
-},{"../decoration":16,"../overlay-manager":17,"./cursors-component":7,"./highlights-component":10,"react-atom-fork":218,"reactionary-atom-fork":220,"space-pen":224,"underscore-plus":228}],13:[function(require,module,exports){
+},{"../decoration":16,"../overlay-manager":18,"./cursors-component":7,"./highlights-component":10,"react-atom-fork":218,"reactionary-atom-fork":220,"space-pen":224,"underscore-plus":228}],13:[function(require,module,exports){
 var React, ScrollbarComponent, div, extend, isEqualForProperties, _ref;
 
 React = require('react-atom-fork');
@@ -2351,12 +2351,7 @@ module.exports = TextEditorComponent = React.createClass({
       return timeoutId = setTimeout(writeSelectedTextToSelectionClipboard);
     }));
   },
-  observeConfig: function() {
-    this.subscribe(atom.config.observe('editor.useHardwareAcceleration', this.setUseHardwareAcceleration));
-    this.subscribe(atom.config.onDidChange('editor.fontSize', this.sampleFontStyling));
-    this.subscribe(atom.config.onDidChange('editor.fontFamily', this.sampleFontStyling));
-    return this.subscribe(atom.config.onDidChange('editor.lineHeight', this.sampleFontStyling));
-  },
+  observeConfig: function() {},
   onGrammarChanged: function() {
     var editor, scopeDescriptor, subscriptions, _ref3;
     editor = this.props.editor;
@@ -3119,7 +3114,7 @@ module.exports = TextEditorComponent = React.createClass({
 
 
 }).call(this,require('_process'))
-},{"../../lib/text-buffer":29,"../subscriber-mixin":18,"./gutter-component":8,"./input-component":11,"./lines-component":12,"./scrollbar-component":13,"./scrollbar-corner-component":14,"_process":3,"event-kit":57,"grim":59,"react-atom-fork":218,"react-atom-fork/lib/ReactDefaultPerf":123,"reactionary-atom-fork":220,"underscore-plus":228}],16:[function(require,module,exports){
+},{"../../lib/text-buffer":29,"../subscriber-mixin":19,"./gutter-component":8,"./input-component":11,"./lines-component":12,"./scrollbar-component":13,"./scrollbar-corner-component":14,"_process":3,"event-kit":57,"grim":59,"react-atom-fork":218,"react-atom-fork/lib/ReactDefaultPerf":123,"reactionary-atom-fork":220,"underscore-plus":228}],16:[function(require,module,exports){
 var Decoration, Emitter, EmitterMixin, Grim, idCounter, nextId, _,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
@@ -3320,6 +3315,65 @@ module.exports = Decoration = (function() {
 
 
 },{"emissary":44,"event-kit":57,"grim":59,"underscore-plus":228}],17:[function(require,module,exports){
+var Config, Editor, React, TextEditorComponent;
+
+Config = (function() {
+  function Config() {
+    this._props = {};
+  }
+
+  Config.prototype.get = function(key) {
+    return this._props[key];
+  };
+
+  Config.prototype.set = function(key, val) {
+    return this._props[key] = val;
+  };
+
+  Config.prototype.onDidChange = function() {};
+
+  Config.prototype.observe = function() {};
+
+  return Config;
+
+})();
+
+window.atom = {
+  config: new Config
+};
+
+React = require('react-atom-fork');
+
+TextEditorComponent = require('./components/text-editor-component');
+
+Editor = (function() {
+  function Editor() {}
+
+  Editor.prototype.getLineCount = function() {
+    return 1;
+  };
+
+  return Editor;
+
+})();
+
+window.addEventListener('load', function() {
+  var component, componentDescriptor, el, root;
+  root = document.body;
+  el = document.createElement('div');
+  root.appendChild(el);
+  componentDescriptor = TextEditorComponent({
+    hostElement: el,
+    rootElement: root,
+    editor: new Editor,
+    mini: true
+  });
+  return component = React.renderComponent(componentDescriptor, root);
+});
+
+
+
+},{"./components/text-editor-component":15,"react-atom-fork":218}],18:[function(require,module,exports){
 var OverlayManager;
 
 module.exports = OverlayManager = (function() {
@@ -3382,7 +3436,7 @@ module.exports = OverlayManager = (function() {
 
 
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var Subscriber, SubscriberMixin;
 
 Subscriber = require('emissary').Subscriber;
@@ -3399,377 +3453,7 @@ module.exports = SubscriberMixin;
 
 
 
-},{"emissary":44}],19:[function(require,module,exports){
-var $, React, TextBuffer, TextEditorComponent, TextEditorView, View, defaults, deprecate, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __slice = [].slice;
-
-_ref = require('space-pen'), View = _ref.View, $ = _ref.$;
-
-React = require('react-atom-fork');
-
-defaults = require('underscore-plus').defaults;
-
-TextBuffer = require('../lib/text-buffer');
-
-TextEditorComponent = require('./components/text-editor-component');
-
-deprecate = require('grim').deprecate;
-
-module.exports = TextEditorView = (function(_super) {
-  __extends(TextEditorView, _super);
-
-  function TextEditorView(modelOrParams, props) {
-    this.element = modelOrParams;
-    TextEditorView.__super__.constructor.apply(this, arguments);
-  }
-
-  TextEditorView.prototype.setModel = function(model) {
-    this.model = model;
-    this.editor = this.model;
-    this.root = $(this.element.rootElement);
-    this.scrollView = this.root.find('.scroll-view');
-    if (atom.config.get('editor.useShadowDOM')) {
-      this.underlayer = $("<div class='underlayer'></div>").appendTo(this);
-      this.overlayer = $("<div class='overlayer'></div>").appendTo(this);
-    } else {
-      this.underlayer = this.find('.highlights').addClass('underlayer');
-      this.overlayer = this.find('.lines').addClass('overlayer');
-    }
-    this.hiddenInput = this.root.find('.hidden-input');
-    this.hiddenInput.on = (function(_this) {
-      return function() {
-        var args;
-        args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-        if (args[0] === 'focusout') {
-          args[0] = 'blur';
-        }
-        return $.prototype.on.apply(_this, args);
-      };
-    })(this);
-    return this.subscribe(atom.config.observe('editor.showLineNumbers', (function(_this) {
-      return function() {
-        _this.gutter = _this.root.find('.gutter');
-        _this.gutter.removeClassFromAllLines = function(klass) {
-          deprecate('Use decorations instead: http://blog.atom.io/2014/07/24/decorations.html');
-          return _this.gutter.find('.line-number').removeClass(klass);
-        };
-        _this.gutter.getLineNumberElement = function(bufferRow) {
-          deprecate('Use decorations instead: http://blog.atom.io/2014/07/24/decorations.html');
-          return _this.gutter.find("[data-buffer-row='" + bufferRow + "']");
-        };
-        return _this.gutter.addClassToLine = function(bufferRow, klass) {
-          var lines;
-          deprecate('Use decorations instead: http://blog.atom.io/2014/07/24/decorations.html');
-          lines = _this.gutter.find("[data-buffer-row='" + bufferRow + "']");
-          lines.addClass(klass);
-          return lines.length > 0;
-        };
-      };
-    })(this)));
-  };
-
-  TextEditorView.prototype.find = function() {
-    var shadowResult;
-    shadowResult = this.root.find.apply(this.root, arguments);
-    if (shadowResult.length > 0) {
-      return shadowResult;
-    } else {
-      return TextEditorView.__super__.find.apply(this, arguments);
-    }
-  };
-
-  TextEditorView.prototype.getModel = function() {
-    return this.model;
-  };
-
-  TextEditorView.prototype.getEditor = function() {
-    return this.model;
-  };
-
-  Object.defineProperty(TextEditorView.prototype, 'lineHeight', {
-    get: function() {
-      return this.model.getLineHeightInPixels();
-    }
-  });
-
-  Object.defineProperty(TextEditorView.prototype, 'charWidth', {
-    get: function() {
-      return this.model.getDefaultCharWidth();
-    }
-  });
-
-  Object.defineProperty(TextEditorView.prototype, 'firstRenderedScreenRow', {
-    get: function() {
-      return this.component.getRenderedRowRange()[0];
-    }
-  });
-
-  Object.defineProperty(TextEditorView.prototype, 'lastRenderedScreenRow', {
-    get: function() {
-      return this.component.getRenderedRowRange()[1];
-    }
-  });
-
-  Object.defineProperty(TextEditorView.prototype, 'active', {
-    get: function() {
-      var _ref1;
-      return this.is((_ref1 = this.getPaneView()) != null ? _ref1.activeView : void 0);
-    }
-  });
-
-  Object.defineProperty(TextEditorView.prototype, 'isFocused', {
-    get: function() {
-      var _ref1;
-      return document.activeElement === this.element || document.activeElement === ((_ref1 = this.element.component) != null ? _ref1.refs.input.getDOMNode() : void 0);
-    }
-  });
-
-  Object.defineProperty(TextEditorView.prototype, 'mini', {
-    get: function() {
-      var _ref1;
-      return (_ref1 = this.component) != null ? _ref1.props.mini : void 0;
-    }
-  });
-
-  Object.defineProperty(TextEditorView.prototype, 'component', {
-    get: function() {
-      var _ref1;
-      return (_ref1 = this.element) != null ? _ref1.component : void 0;
-    }
-  });
-
-  TextEditorView.prototype.attached = function(onDom) {
-    if (!onDom) {
-      return;
-    }
-    return this.trigger('editor:attached', [this]);
-  };
-
-  TextEditorView.prototype.detached = function() {
-    this.trigger('editor:detached', [this]);
-    return this.trigger('editor:will-be-removed', [this]);
-  };
-
-  TextEditorView.prototype.remove = function(selector, keepData) {
-    if (!keepData) {
-      this.model.destroy();
-    }
-    return TextEditorView.__super__.remove.apply(this, arguments);
-  };
-
-  TextEditorView.prototype.scrollTop = function(scrollTop) {
-    if (scrollTop != null) {
-      return this.model.setScrollTop(scrollTop);
-    } else {
-      return this.model.getScrollTop();
-    }
-  };
-
-  TextEditorView.prototype.scrollLeft = function(scrollLeft) {
-    if (scrollLeft != null) {
-      return this.model.setScrollLeft(scrollLeft);
-    } else {
-      return this.model.getScrollLeft();
-    }
-  };
-
-  TextEditorView.prototype.scrollToBottom = function() {
-    deprecate('Use TextEditor::scrollToBottom instead. You can get the editor via editorView.getModel()');
-    return this.model.setScrollBottom(Infinity);
-  };
-
-  TextEditorView.prototype.scrollToScreenPosition = function(screenPosition, options) {
-    deprecate('Use TextEditor::scrollToScreenPosition instead. You can get the editor via editorView.getModel()');
-    return this.model.scrollToScreenPosition(screenPosition, options);
-  };
-
-  TextEditorView.prototype.scrollToBufferPosition = function(bufferPosition, options) {
-    deprecate('Use TextEditor::scrollToBufferPosition instead. You can get the editor via editorView.getModel()');
-    return this.model.scrollToBufferPosition(bufferPosition, options);
-  };
-
-  TextEditorView.prototype.scrollToCursorPosition = function() {
-    deprecate('Use TextEditor::scrollToCursorPosition instead. You can get the editor via editorView.getModel()');
-    return this.model.scrollToCursorPosition();
-  };
-
-  TextEditorView.prototype.pixelPositionForBufferPosition = function(bufferPosition) {
-    deprecate('Use TextEditor::pixelPositionForBufferPosition instead. You can get the editor via editorView.getModel()');
-    return this.model.pixelPositionForBufferPosition(bufferPosition);
-  };
-
-  TextEditorView.prototype.pixelPositionForScreenPosition = function(screenPosition) {
-    deprecate('Use TextEditor::pixelPositionForScreenPosition instead. You can get the editor via editorView.getModel()');
-    return this.model.pixelPositionForScreenPosition(screenPosition);
-  };
-
-  TextEditorView.prototype.appendToLinesView = function(view) {
-    view.css('position', 'absolute');
-    view.css('z-index', 1);
-    return this.overlayer.append(view);
-  };
-
-  TextEditorView.prototype.unmountComponent = function() {
-    if (this.component.isMounted()) {
-      return React.unmountComponentAtNode(this.element);
-    }
-  };
-
-  TextEditorView.prototype.splitLeft = function() {
-    var pane;
-    deprecate("Use Pane::splitLeft instead.\nTo duplicate this editor into the split use:\neditorView.getPaneView().getModel().splitLeft(copyActiveItem: true)");
-    pane = this.getPaneView();
-    return pane != null ? pane.splitLeft(pane != null ? pane.copyActiveItem() : void 0).activeView : void 0;
-  };
-
-  TextEditorView.prototype.splitRight = function() {
-    var pane;
-    deprecate("Use Pane::splitRight instead.\nTo duplicate this editor into the split use:\neditorView.getPaneView().getModel().splitRight(copyActiveItem: true)");
-    pane = this.getPaneView();
-    return pane != null ? pane.splitRight(pane != null ? pane.copyActiveItem() : void 0).activeView : void 0;
-  };
-
-  TextEditorView.prototype.splitUp = function() {
-    var pane;
-    deprecate("Use Pane::splitUp instead.\nTo duplicate this editor into the split use:\neditorView.getPaneView().getModel().splitUp(copyActiveItem: true)");
-    pane = this.getPaneView();
-    return pane != null ? pane.splitUp(pane != null ? pane.copyActiveItem() : void 0).activeView : void 0;
-  };
-
-  TextEditorView.prototype.splitDown = function() {
-    var pane;
-    deprecate("Use Pane::splitDown instead.\nTo duplicate this editor into the split use:\neditorView.getPaneView().getModel().splitDown(copyActiveItem: true)");
-    pane = this.getPaneView();
-    return pane != null ? pane.splitDown(pane != null ? pane.copyActiveItem() : void 0).activeView : void 0;
-  };
-
-  TextEditorView.prototype.getPaneView = function() {
-    return this.parent('.item-views').parents('atom-pane').view();
-  };
-
-  TextEditorView.prototype.getPane = function() {
-    deprecate('Use TextEditorView::getPaneView() instead');
-    return this.getPaneView();
-  };
-
-  TextEditorView.prototype.show = function() {
-    var _ref1;
-    TextEditorView.__super__.show.apply(this, arguments);
-    return (_ref1 = this.component) != null ? _ref1.checkForVisibilityChange() : void 0;
-  };
-
-  TextEditorView.prototype.hide = function() {
-    var _ref1;
-    TextEditorView.__super__.hide.apply(this, arguments);
-    return (_ref1 = this.component) != null ? _ref1.checkForVisibilityChange() : void 0;
-  };
-
-  TextEditorView.prototype.pageDown = function() {
-    deprecate('Use editorView.getModel().pageDown()');
-    return this.model.pageDown();
-  };
-
-  TextEditorView.prototype.pageUp = function() {
-    deprecate('Use editorView.getModel().pageUp()');
-    return this.model.pageUp();
-  };
-
-  TextEditorView.prototype.getFirstVisibleScreenRow = function() {
-    deprecate('Use TextEditor::getFirstVisibleScreenRow instead. You can get the editor via editorView.getModel()');
-    return this.model.getFirstVisibleScreenRow();
-  };
-
-  TextEditorView.prototype.getLastVisibleScreenRow = function() {
-    deprecate('Use TextEditor::getLastVisibleScreenRow instead. You can get the editor via editorView.getModel()');
-    return this.model.getLastVisibleScreenRow();
-  };
-
-  TextEditorView.prototype.getFontFamily = function() {
-    var _ref1;
-    deprecate('This is going away. Use atom.config.get("editor.fontFamily") instead');
-    return (_ref1 = this.component) != null ? _ref1.getFontFamily() : void 0;
-  };
-
-  TextEditorView.prototype.setFontFamily = function(fontFamily) {
-    var _ref1;
-    deprecate('This is going away. Use atom.config.set("editor.fontFamily", "my-font") instead');
-    return (_ref1 = this.component) != null ? _ref1.setFontFamily(fontFamily) : void 0;
-  };
-
-  TextEditorView.prototype.getFontSize = function() {
-    var _ref1;
-    deprecate('This is going away. Use atom.config.get("editor.fontSize") instead');
-    return (_ref1 = this.component) != null ? _ref1.getFontSize() : void 0;
-  };
-
-  TextEditorView.prototype.setFontSize = function(fontSize) {
-    var _ref1;
-    deprecate('This is going away. Use atom.config.set("editor.fontSize", 12) instead');
-    return (_ref1 = this.component) != null ? _ref1.setFontSize(fontSize) : void 0;
-  };
-
-  TextEditorView.prototype.setLineHeight = function(lineHeight) {
-    deprecate('This is going away. Use atom.config.set("editor.lineHeight", 1.5) instead');
-    return this.component.setLineHeight(lineHeight);
-  };
-
-  TextEditorView.prototype.setWidthInChars = function(widthInChars) {
-    return this.component.getDOMNode().style.width = (this.model.getDefaultCharWidth() * widthInChars) + 'px';
-  };
-
-  TextEditorView.prototype.setShowIndentGuide = function(showIndentGuide) {
-    deprecate('This is going away. Use atom.config.set("editor.showIndentGuide", true|false) instead');
-    return this.component.setShowIndentGuide(showIndentGuide);
-  };
-
-  TextEditorView.prototype.setSoftWrap = function(softWrapped) {
-    deprecate('Use TextEditor::setSoftWrapped instead. You can get the editor via editorView.getModel()');
-    return this.model.setSoftWrapped(softWrapped);
-  };
-
-  TextEditorView.prototype.setShowInvisibles = function(showInvisibles) {
-    deprecate('This is going away. Use atom.config.set("editor.showInvisibles", true|false) instead');
-    return this.component.setShowInvisibles(showInvisibles);
-  };
-
-  TextEditorView.prototype.getText = function() {
-    return this.model.getText();
-  };
-
-  TextEditorView.prototype.setText = function(text) {
-    return this.model.setText(text);
-  };
-
-  TextEditorView.prototype.insertText = function(text) {
-    return this.model.insertText(text);
-  };
-
-  TextEditorView.prototype.isInputEnabled = function() {
-    return this.component.isInputEnabled();
-  };
-
-  TextEditorView.prototype.setInputEnabled = function(inputEnabled) {
-    return this.component.setInputEnabled(inputEnabled);
-  };
-
-  TextEditorView.prototype.setPlaceholderText = function(placeholderText) {
-    deprecate('Use TextEditor::setPlaceholderText instead. eg. editorView.getModel().setPlaceholderText(text)');
-    return this.model.setPlaceholderText(placeholderText);
-  };
-
-  TextEditorView.prototype.lineElementForScreenRow = function(screenRow) {
-    return $(this.component.lineNodeForScreenRow(screenRow));
-  };
-
-  return TextEditorView;
-
-})(View);
-
-
-
-},{"../lib/text-buffer":29,"./components/text-editor-component":15,"grim":59,"react-atom-fork":218,"space-pen":224,"underscore-plus":228}],20:[function(require,module,exports){
+},{"emissary":44}],20:[function(require,module,exports){
 (function() {
   var BufferPatch, Range, Serializable,
     __hasProp = {}.hasOwnProperty,
@@ -52578,5 +52262,4 @@ module.exports=require(73)
   }
 }).call(this);
 
-},{}]},{},[19])(19)
-});
+},{}]},{},[17]);

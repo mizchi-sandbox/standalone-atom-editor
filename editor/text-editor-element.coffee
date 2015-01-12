@@ -3,7 +3,7 @@
 React = require 'react-atom-fork'
 Path = require 'path'
 {defaults} = require 'underscore-plus'
-TextBuffer = require 'text-buffer'
+TextBuffer = require '../lib/text-buffer'
 TextEditor = require './text-editor'
 TextEditorComponent = require './text-editor-component'
 TextEditorView = null

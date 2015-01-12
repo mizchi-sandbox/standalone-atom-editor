@@ -49,6 +49,7 @@ TextEditorComponent = React.createClass
   render: ->
     {focused, showIndentGuide, showLineNumbers, visible} = @state
     {editor, mini, cursorBlinkPeriod, cursorBlinkResumeDelay, hostElement, useShadowDOM} = @props
+
     maxLineNumberDigits = editor.getLineCount().toString().length
     hasSelection = editor.getLastSelection()? and !editor.getLastSelection().isEmpty()
     style = {}
@@ -96,57 +97,57 @@ TextEditorComponent = React.createClass
     className += ' has-selection' if hasSelection
 
     div {className, style},
-      if @shouldRenderGutter()
-        GutterComponent {
-          ref: 'gutter', onMouseDown: @onGutterMouseDown, lineDecorations,
-          defaultCharWidth, editor, renderedRowRange, maxLineNumberDigits, scrollViewHeight,
-          scrollTop, scrollHeight, lineHeightInPixels, @pendingChanges, mouseWheelScreenRow,
-          @useHardwareAcceleration, @performedInitialMeasurement, @backgroundColor, @gutterBackgroundColor
-        }
+      # if @shouldRenderGutter()
+      #   GutterComponent {
+      #     ref: 'gutter', onMouseDown: @onGutterMouseDown, lineDecorations,
+      #     defaultCharWidth, editor, renderedRowRange, maxLineNumberDigits, scrollViewHeight,
+      #     scrollTop, scrollHeight, lineHeightInPixels, @pendingChanges, mouseWheelScreenRow,
+      #     @useHardwareAcceleration, @performedInitialMeasurement, @backgroundColor, @gutterBackgroundColor
+      #   }
 
-      div ref: 'scrollView', className: 'scroll-view',
-        InputComponent
-          ref: 'input'
-          className: 'hidden-input'
-          style: hiddenInputStyle
+      # div ref: 'scrollView', className: 'scroll-view',
+      #   InputComponent
+      #     ref: 'input'
+      #     className: 'hidden-input'
+      #     style: hiddenInputStyle
+      #
+      #   LinesComponent {
+      #     ref: 'lines',
+      #     editor, lineHeightInPixels, defaultCharWidth, tokenizedLines,
+      #     lineDecorations, highlightDecorations, overlayDecorations, hostElement,
+      #     showIndentGuide, renderedRowRange, @pendingChanges, scrollTop, scrollLeft,
+      #     @scrollingVertically, scrollHeight, scrollWidth, mouseWheelScreenRow,
+      #     visible, scrollViewHeight, @scopedCharacterWidthsChangeCount, lineWidth, @useHardwareAcceleration,
+      #     placeholderText, @performedInitialMeasurement, @backgroundColor, cursorPixelRects,
+      #     cursorBlinkPeriod, cursorBlinkResumeDelay, mini, useShadowDOM
+      #   }
+      #
+      #   ScrollbarComponent
+      #     ref: 'horizontalScrollbar'
+      #     className: 'horizontal-scrollbar'
+      #     orientation: 'horizontal'
+      #     onScroll: @onHorizontalScroll
+      #     scrollLeft: scrollLeft
+      #     scrollWidth: scrollWidth
+      #     visible: horizontallyScrollable
+      #     scrollableInOppositeDirection: verticallyScrollable
+      #     verticalScrollbarWidth: verticalScrollbarWidth
+      #     horizontalScrollbarHeight: horizontalScrollbarHeight
+      #     useHardwareAcceleration: @useHardwareAcceleration
 
-        LinesComponent {
-          ref: 'lines',
-          editor, lineHeightInPixels, defaultCharWidth, tokenizedLines,
-          lineDecorations, highlightDecorations, overlayDecorations, hostElement,
-          showIndentGuide, renderedRowRange, @pendingChanges, scrollTop, scrollLeft,
-          @scrollingVertically, scrollHeight, scrollWidth, mouseWheelScreenRow,
-          visible, scrollViewHeight, @scopedCharacterWidthsChangeCount, lineWidth, @useHardwareAcceleration,
-          placeholderText, @performedInitialMeasurement, @backgroundColor, cursorPixelRects,
-          cursorBlinkPeriod, cursorBlinkResumeDelay, mini, useShadowDOM
-        }
-
-        ScrollbarComponent
-          ref: 'horizontalScrollbar'
-          className: 'horizontal-scrollbar'
-          orientation: 'horizontal'
-          onScroll: @onHorizontalScroll
-          scrollLeft: scrollLeft
-          scrollWidth: scrollWidth
-          visible: horizontallyScrollable
-          scrollableInOppositeDirection: verticallyScrollable
-          verticalScrollbarWidth: verticalScrollbarWidth
-          horizontalScrollbarHeight: horizontalScrollbarHeight
-          useHardwareAcceleration: @useHardwareAcceleration
-
-      ScrollbarComponent
-        ref: 'verticalScrollbar'
-        className: 'vertical-scrollbar'
-        orientation: 'vertical'
-        onScroll: @onVerticalScroll
-        scrollTop: scrollTop
-        scrollHeight: scrollHeight
-        visible: verticallyScrollable
-        scrollableInOppositeDirection: horizontallyScrollable
-        verticalScrollbarWidth: verticalScrollbarWidth
-        horizontalScrollbarHeight: horizontalScrollbarHeight
-        useHardwareAcceleration: @useHardwareAcceleration
-
+      # ScrollbarComponent
+      #   ref: 'verticalScrollbar'
+      #   className: 'vertical-scrollbar'
+      #   orientation: 'vertical'
+      #   onScroll: @onVerticalScroll
+      #   scrollTop: scrollTop
+      #   scrollHeight: scrollHeight
+      #   visible: verticallyScrollable
+      #   scrollableInOppositeDirection: horizontallyScrollable
+      #   verticalScrollbarWidth: verticalScrollbarWidth
+      #   horizontalScrollbarHeight: horizontalScrollbarHeight
+      #   useHardwareAcceleration: @useHardwareAcceleration
+      #
       # Also used to measure the height/width of scrollbars after the initial render
       ScrollbarCornerComponent
         ref: 'scrollbarCorner'
@@ -451,10 +452,10 @@ TextEditorComponent = React.createClass
       timeoutId = setTimeout(writeSelectedTextToSelectionClipboard)
 
   observeConfig: ->
-    @subscribe atom.config.observe 'editor.useHardwareAcceleration', @setUseHardwareAcceleration
-    @subscribe atom.config.onDidChange 'editor.fontSize', @sampleFontStyling
-    @subscribe atom.config.onDidChange 'editor.fontFamily', @sampleFontStyling
-    @subscribe atom.config.onDidChange 'editor.lineHeight', @sampleFontStyling
+    # @subscribe atom.config.observe 'editor.useHardwareAcceleration', @setUseHardwareAcceleration
+    # @subscribe atom.config.onDidChange 'editor.fontSize', @sampleFontStyling
+    # @subscribe atom.config.onDidChange 'editor.fontFamily', @sampleFontStyling
+    # @subscribe atom.config.onDidChange 'editor.lineHeight', @sampleFontStyling
 
   onGrammarChanged: ->
     {editor} = @props
