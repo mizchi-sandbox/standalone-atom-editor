@@ -1,10 +1,10 @@
 {View, $} = require 'space-pen'
 React = require 'react-atom-fork'
 {defaults} = require 'underscore-plus'
-TextBuffer = require 'text-buffer'
-TextEditor = require './text-editor'
-TextEditorElement = require './text-editor-element'
-TextEditorComponent = require './text-editor-component'
+TextBuffer = require '../lib/text-buffer'
+# TextEditor = require './text-editor'
+# TextEditorElement = require './text-editor-element'
+TextEditorComponent = require './components/text-editor-component'
 {deprecate} = require 'grim'
 
 # Deprecated: Represents the entire visual pane in Atom.
@@ -47,24 +47,25 @@ class TextEditorView extends View
   #
   constructor: (modelOrParams, props) ->
     # Handle direct construction with an editor or params
-    unless modelOrParams instanceof HTMLElement
-      if modelOrParams instanceof TextEditor
-        model = modelOrParams
-      else
-        {editor, mini, placeholderText, attributes} = modelOrParams
-        model = editor ? new TextEditor
-          buffer: new TextBuffer
-          softWrapped: false
-          tabLength: 2
-          softTabs: true
-          mini: mini
-          placeholderText: placeholderText
 
-      element = new TextEditorElement
-      element.lineOverdrawMargin = props?.lineOverdrawMargin
-      element.setAttribute(name, value) for name, value of attributes if attributes?
-      element.setModel(model)
-      return element.__spacePenView
+    # unless modelOrParams instanceof HTMLElement
+    #   if modelOrParams instanceof TextEditor
+    #     model = modelOrParams
+    #   else
+    #     {editor, mini, placeholderText, attributes} = modelOrParams
+    #     model = editor ? new TextEditor
+    #       buffer: new TextBuffer
+    #       softWrapped: false
+    #       tabLength: 2
+    #       softTabs: true
+    #       mini: mini
+    #       placeholderText: placeholderText
+    #
+    #   element = new TextEditorElement
+    #   element.lineOverdrawMargin = props?.lineOverdrawMargin
+    #   element.setAttribute(name, value) for name, value of attributes if attributes?
+    #   element.setModel(model)
+    #   return element.__spacePenView
 
     # Handle construction with an element
     @element = modelOrParams
@@ -130,16 +131,13 @@ class TextEditorView extends View
   Object.defineProperty @::, 'mini', get: -> @component?.props.mini
   Object.defineProperty @::, 'component', get: -> @element?.component
 
-  afterAttach: (onDom) ->
+  attached: (onDom) ->
     return unless onDom
-    return if @attached
-    @attached = true
     @trigger 'editor:attached', [this]
 
-  beforeRemove: ->
+  detached: ->
     @trigger 'editor:detached', [this]
     @trigger 'editor:will-be-removed', [this]
-    @attached = false
 
   remove: (selector, keepData) ->
     @model.destroy() unless keepData
@@ -307,18 +305,6 @@ class TextEditorView extends View
 
   setInputEnabled: (inputEnabled) ->
     @component.setInputEnabled(inputEnabled)
-
-  requestDisplayUpdate: ->
-    deprecate('Please remove from your code. ::requestDisplayUpdate no longer does anything')
-
-  updateDisplay: ->
-    deprecate('Please remove from your code. ::updateDisplay no longer does anything')
-
-  resetDisplay: ->
-    deprecate('Please remove from your code. ::resetDisplay no longer does anything')
-
-  redraw: ->
-    deprecate('Please remove from your code. ::redraw no longer does anything')
 
   setPlaceholderText: (placeholderText) ->
     deprecate('Use TextEditor::setPlaceholderText instead. eg. editorView.getModel().setPlaceholderText(text)')

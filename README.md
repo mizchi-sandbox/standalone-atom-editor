@@ -1,3 +1,12 @@
+# Try standalone atom editor
+
+CAUTION: It doesn't work yet.
+
+```
+browserify -t coffeeify --extension=".coffee" editor/text-editor-view.coffee -s Editor > dist/all.js
+open dist/index.html
+```
+
 # Atom TextBuffer Core [![Build Status](https://travis-ci.org/atom/text-buffer.svg?branch=master)](https://travis-ci.org/atom/text-buffer)
 
 This is the core of the Atom text buffer, separated into its own module so its

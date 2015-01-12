@@ -4,10 +4,10 @@ React = require 'react-atom-fork'
 {debounce, isEqual, isEqualForProperties, multiplyString, toArray} = require 'underscore-plus'
 {$$} = require 'space-pen'
 
-Decoration = require './decoration'
+Decoration = require '../decoration'
 CursorsComponent = require './cursors-component'
 HighlightsComponent = require './highlights-component'
-OverlayManager = require './overlay-manager'
+OverlayManager = require '../overlay-manager'
 
 DummyLineNode = $$(-> @div className: 'line', style: 'position: absolute; visibility: hidden;', => @span 'x')[0]
 AcceptFilter = {acceptNode: -> NodeFilter.FILTER_ACCEPT}

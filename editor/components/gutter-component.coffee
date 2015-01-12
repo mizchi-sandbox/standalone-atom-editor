@@ -2,8 +2,8 @@ _ = require 'underscore-plus'
 React = require 'react-atom-fork'
 {div} = require 'reactionary-atom-fork'
 {isEqual, isEqualForProperties, multiplyString, toArray} = require 'underscore-plus'
-Decoration = require './decoration'
-SubscriberMixin = require './subscriber-mixin'
+Decoration = require '../decoration'
+SubscriberMixin = require '../subscriber-mixin'
 
 WrapperDiv = document.createElement('div')
 

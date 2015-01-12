@@ -2,18 +2,18 @@ _ = require 'underscore-plus'
 React = require 'react-atom-fork'
 {div, span} = require 'reactionary-atom-fork'
 {debounce, defaults, isEqualForProperties} = require 'underscore-plus'
-scrollbarStyle = require 'scrollbar-style'
-{Range, Point} = require 'text-buffer'
+# scrollbarStyle = require 'scrollbar-style'
+{Range, Point} = require '../../lib/text-buffer'
 grim = require 'grim'
 {CompositeDisposable} = require 'event-kit'
-ipc = require 'ipc'
+# ipc = require 'ipc' # wip
 
 GutterComponent = require './gutter-component'
 InputComponent = require './input-component'
 LinesComponent = require './lines-component'
 ScrollbarComponent = require './scrollbar-component'
 ScrollbarCornerComponent = require './scrollbar-corner-component'
-SubscriberMixin = require './subscriber-mixin'
+SubscriberMixin = require '../subscriber-mixin'
 
 module.exports =
 TextEditorComponent = React.createClass
@@ -186,7 +186,7 @@ TextEditorComponent = React.createClass
     @subscribe stylesElement.onDidRemoveStyleElement @onStylesheetsChanged
     unless atom.themes.isInitialLoadComplete()
       @subscribe atom.themes.onDidChangeActiveThemes @onAllThemesLoaded
-    @subscribe scrollbarStyle.changes, @refreshScrollbars
+    # @subscribe scrollbarStyle.changes, @refreshScrollbars
 
     @domPollingIntervalId = setInterval(@pollDOM, @domPollingInterval)
     @updateParentViewFocusedClassIfNeeded({})
@@ -443,7 +443,9 @@ TextEditorComponent = React.createClass
         # This uses ipc.send instead of clipboard.writeText because
         # clipboard.writeText is a sync ipc call on Linux and that
         # will slow down selections.
-        ipc.send('write-text-to-selection-clipboard', selectedText)
+
+        # ipc.send('write-text-to-selection-clipboard', selectedText) # wip
+        ''
     @subscribe editor.onDidChangeSelectionRange ->
       clearTimeout(timeoutId)
       timeoutId = setTimeout(writeSelectedTextToSelectionClipboard)
@@ -785,8 +787,9 @@ TextEditorComponent = React.createClass
 
     pasteSelectionClipboard = (event) ->
       if event?.which is 2 and process.platform is 'linux'
-        if selection = require('clipboard').readText('selection')
-          editor.insertText(selection)
+        # if selection = require('clipboard').readText('selection') # wip
+        #   editor.insertText(selection) # wip
+        ''
 
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)
